@@ -202,14 +202,13 @@ class BotInfo(commands.Cog, name="Utility"):
     async def bot(self, ctx, bot: discord.Member):
         bot_invite = discord.Embed()
         bot_invite.set_thumbnail(url=bot.avatar_url)
+        bot_invite.title = f"{bot.name} Invite"
         if bot.bot:
-            bot_invite.title = f"{bot.name} Invite"
             bot_invite.description = (
                 f"Invite {bot.name} to your server! Here is the invite link.\n"
                 f"Click [here]({str(discord.utils.oauth_url(bot.id, discord.Permissions(2147483647)))}) for the invite!"
             )
         else:
-            bot_invite.title = f"{bot.name} Invite"
             bot_invite.description = "That is not a bot. Make sure you mention a bot."
         await ctx.send(embed=bot_invite)
 

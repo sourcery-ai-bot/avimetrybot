@@ -25,12 +25,13 @@ class AvimetryContext(commands.Context):
                     content = str(content.replace(token, f"[{key} omitted]"))
             embed = discord.Embed(description=content)
             try:
-                if self.command.name == "jishaku":
+                if (
+                    self.command.name == "jishaku"
+                    or "jishaku" not in self.command.qualified_name
+                ):
                     content = None
-                elif "jishaku" in self.command.qualified_name:
-                    return await self.reply(content=content)
                 else:
-                    content = None
+                    return await self.reply(content=content)
             except Exception:
                 pass
         if discord.Embed:

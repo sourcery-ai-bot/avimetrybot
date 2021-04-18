@@ -55,25 +55,25 @@ class Moderation(commands.Cog):
         await ctx.message.delete()
         if amount == 0:
             return
-        else:
-            authors = {}
-            async for message in ctx.channel.history(limit=amount):
-                if message.author not in authors:
-                    authors[message.author] = 1
-                else:
-                    authors[message.author] += 1
-            await asyncio.sleep(0.1)
-            await ctx.channel.purge(limit=amount)
-            msg = "\n".join(
-                [f"{author.mention}: {amount} {'message' if amount==1 else 'messages'}"
-                    for author, amount in authors.items()]
-            )
+        authors = {}
+        async for message in ctx.channel.history(limit=amount):
+            if message.author not in authors:
+                authors[message.author] = 1
+            else:
+                authors[message.author] += 1
+        await asyncio.sleep(0.1)
+        await ctx.channel.purge(limit=amount)
+        msg = "\n".join(
+            f"{author.mention}: {amount} {'message' if amount==1 else 'messages'}"
+            for author, amount in authors.items()
+        )
 
-            pe = discord.Embed(
-                title="Purge",
-                description=f"{msg}"
-            )
-            await ctx.send(embed=pe, delete_after=10)
+
+        pe = discord.Embed(
+            title="Purge",
+            description=f"{msg}"
+        )
+        await ctx.send(embed=pe, delete_after=10)
 
     @purge.command()
     @commands.has_permissions(manage_messages=True)

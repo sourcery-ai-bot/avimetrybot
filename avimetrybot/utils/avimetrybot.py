@@ -158,6 +158,5 @@ class AvimetryBot(commands.Bot):
         await super().close()
 
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        if after.author.id in self.owner_ids:
-            if before.content != after.content:
-                await self.process_commands(after)
+        if after.author.id in self.owner_ids and before.content != after.content:
+            await self.process_commands(after)

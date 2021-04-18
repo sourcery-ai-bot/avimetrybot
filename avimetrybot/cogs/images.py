@@ -23,14 +23,11 @@ class Manipulation(commands.Cog):
             url = ctx.author.avatar_url_as(format="png")
         elif isinstance(url, discord.Member):
             url = url.avatar_url_as(format="png")
-        elif isinstance(url, discord.PartialEmoji) or isinstance(url, discord.Emoji):
+        elif isinstance(url, (discord.PartialEmoji, discord.Emoji)):
             url = url.url
         else:
             find_url = re.findall(regex_url, url)
-            if find_url:
-                url = "".join(find_url)
-            else:
-                url = await urlify_emoji(url)
+            url = "".join(find_url) if find_url else await urlify_emoji(url)
         return url
 
     # Magic Command
